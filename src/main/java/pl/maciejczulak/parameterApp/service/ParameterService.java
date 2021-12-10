@@ -2,6 +2,7 @@ package pl.maciejczulak.parameterApp.service;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.maciejczulak.parameterApp.model.Parameter;
 import pl.maciejczulak.parameterApp.repository.ParameterRepository;
@@ -43,7 +44,7 @@ public class ParameterService {
         );
     }
 
-    public List<Parameter> getParametersList() {
+    public List<Parameter> getParameterList() {
         log.info("Getting list of all paremeters");
         return repository.findAll();
     }

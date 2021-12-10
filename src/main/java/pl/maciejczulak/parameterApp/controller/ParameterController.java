@@ -40,8 +40,8 @@ public class ParameterController {
     }
 
     @GetMapping
-    public List<Parameter> getParametersList(){
+    public List<Parameter> getParameterList(){
         log.info("Attempt to get list of all parameters");
-        return service.getParametersList();
+        return service.getParameterList();
     }
 }
