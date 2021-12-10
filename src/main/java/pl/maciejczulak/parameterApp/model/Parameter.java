@@ -13,7 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 @Data
 @Entity
-public class Parameter {
+public abstract class Parameter {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "parameter_id")
@@ -22,6 +22,7 @@ public class Parameter {
     @NotNull
     private String name;
     private String description;
+
 
 }
 

@@ -1,9 +1,17 @@
 package pl.maciejczulak.parameterApp.model;
 
-import javax.persistence.Column;
-import java.time.LocalDate;
-import java.util.Date;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import java.time.LocalDate;
+
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
+@Entity
 public class DescriptionalParameterValue extends ParameterValue{
     @Column(length = 30)
     private String description;

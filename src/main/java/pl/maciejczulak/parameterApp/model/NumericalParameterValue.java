@@ -4,12 +4,15 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.Entity;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Date;
 
 @NoArgsConstructor
+@AllArgsConstructor
 @Data
+@Entity
 public class NumericalParameterValue extends ParameterValue {
     private BigDecimal value;
     private Unit unit;
