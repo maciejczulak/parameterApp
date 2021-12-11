@@ -21,6 +21,11 @@ public class DescriptionalParameterValueService {
     }
 
     public DescriptionalParameterValue addDescriptionalParameterValue(DescriptionalParameterValue toAdd) {
+        Optional<DescriptionalParameterValue> opt1 = repository.findByDateFrom(toAdd.getDateFrom());
+        Optional<DescriptionalParameterValue> opt2 = repository.findByDateTo(toAdd.getDateTo());
+        if(opt1.isPresent() && opt2.isPresent()){
+            throw new IllegalArgumentException("DescriptionalParameterValue in that period of time already exists");
+        }
         log.info("Successfully saved descriptional value of parameter {} to database", toAdd.getId());
         return repository.save(toAdd);
     }
