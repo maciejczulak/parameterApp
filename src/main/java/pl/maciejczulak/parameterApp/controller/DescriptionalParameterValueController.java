@@ -2,12 +2,15 @@ package pl.maciejczulak.parameterApp.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import pl.maciejczulak.parameterApp.model.DescriptionalParameterValue;
+import pl.maciejczulak.parameterApp.model.NumericalParameterValue;
 import pl.maciejczulak.parameterApp.model.ParameterValue;
 import pl.maciejczulak.parameterApp.service.DescriptionalParameterValueService;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -51,6 +54,30 @@ public class DescriptionalParameterValueController {
         log.info("Attempt to get list of all parameters value with paremeterId={}", parameterId);
         return service.getDescriptionalParameterValueListByParameter(parameterId);
     }
+
+    @GetMapping("/filter/{min}/{max}")
+    public List<DescriptionalParameterValue> getDescriptionalParameterValueListInPeriodOfTime(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate min,
+                                                                                      @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate max){
+        log.info("Attempt to get list of descriptional parameter values in period of time min={} to max={}", min, max);
+        return service.getDescriptionalParameterValueListInPeriodOfTime(min, max);
+    }
+
+    @GetMapping("/filter/from/{min}/{max}")
+    public List<DescriptionalParameterValue> getDescriptionalParameterValueListByDateFrom(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate min,
+                                                                                  @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate max){
+        log.info("Attempt to get list of descriptional parameter values by dateFrom min={} to max={}", min, max);
+        return service.getDescriptionalParameterValueListByDateFrom(min, max);
+    }
+
+    @GetMapping("/filter/to/{min}/{max}")
+    public List<DescriptionalParameterValue> getDescriptionalParameterValueListByDateTo(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate min,
+                                                                                @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate max){
+        log.info("Attempt to get list of descriptional parameter values by dateTo min={} to max={}", min, max);
+        return service.getDescriptionalParameterValueListByDateTo(min, max);
+    }
+
+
+
 
 
 

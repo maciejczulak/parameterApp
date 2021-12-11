@@ -7,6 +7,7 @@ import pl.maciejczulak.parameterApp.model.DescriptionalParameterValue;
 import pl.maciejczulak.parameterApp.model.NumericalParameterValue;
 import pl.maciejczulak.parameterApp.repository.DescriptionalParameterValueRepository;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -20,19 +21,19 @@ public class DescriptionalParameterValueService {
     }
 
     public DescriptionalParameterValue addDescriptionalParameterValue(DescriptionalParameterValue toAdd) {
-        log.info("Successfully saved value of parameter {} to database", toAdd.getId());
+        log.info("Successfully saved descriptional value of parameter {} to database", toAdd.getId());
         return repository.save(toAdd);
     }
 
     public DescriptionalParameterValue updateDescriptionalParameterValue(Long id, DescriptionalParameterValue toUpdate) {
         Optional<DescriptionalParameterValue> optionalDescriptionalParameterValue = repository.findById(id);
         if (optionalDescriptionalParameterValue.isEmpty()){
-            log.info("Parameter value with id={} not found", id);
+            log.info("Descriptional parameter value with id={} not found", id);
             return null;
         }
         toUpdate.setId(id);
         repository.save(toUpdate);
-        log.info("Parameter value with id={} successfully updated", id);
+        log.info("Descriptional parameter value with id={} successfully updated", id);
         return toUpdate;
     }
 
@@ -40,22 +41,45 @@ public class DescriptionalParameterValueService {
         Optional <DescriptionalParameterValue> optionalDescriptionalParameterValue = repository.findById(id);
         optionalDescriptionalParameterValue.ifPresentOrElse(param -> {
                     repository.delete(param);
-                    log.info("Parameter value with id={} deleted from database", id);
-                },() -> log.info("Parameter value with id={} not found", id)
+                    log.info("Descriptional parameter value with id={} deleted from database", id);
+                },() -> log.info("Descriptional parameter value with id={} not found", id)
         );
     }
 
     public List<DescriptionalParameterValue> getDescriptionalParameterValueList() {
-        log.info("Getting list of all paremeters value");
+        log.info("Getting list of all descriptional parameter values");
         return repository.findAll();
     }
 
     public List<DescriptionalParameterValue> getDescriptionalParameterValueListByParameter(Long paremeterId) {
-        log.info("Getting list of paremeters value with paremeterId={}", paremeterId);
+        log.info("Getting list of descriptional parameter values with paremeterId={}", paremeterId);
         return repository.findAll().stream()
                 .filter(a -> a.getParameterId().equals(paremeterId)).collect(Collectors.toList());
     }
 
+    public List<DescriptionalParameterValue> getDescriptionalParameterValueListInPeriodOfTime(LocalDate min, LocalDate max) {
+        log.info("Getting list of descriptional parameter values in period of time from={} to={}", min, max);
+        return repository.findAll().stream()
+                .filter(a -> a.getDateFrom().isAfter(min)==true)
+                .filter(b -> b.getDateTo().isBefore(max)==true)
+                .collect(Collectors.toList());
+    }
+
+    public List<DescriptionalParameterValue> getDescriptionalParameterValueListByDateFrom(LocalDate min, LocalDate max) {
+        log.info("Getting list of descriptional parameter values by dateFrom from={} to={}", min, max);
+        return repository.findAll().stream()
+                .filter(a -> a.getDateFrom().isAfter(min)==true)
+                .filter(b -> b.getDateFrom().isBefore(max)==true)
+                .collect(Collectors.toList());
+    }
+
+    public List<DescriptionalParameterValue> getDescriptionalParameterValueListByDateTo(LocalDate min, LocalDate max) {
+        log.info("Getting list of descriptional parameters values by dateTo from={} to={}", min, max);
+        return repository.findAll().stream()
+                .filter(a -> a.getDateTo().isAfter(min)==true)
+                .filter(b -> b.getDateTo().isBefore(max)==true)
+                .collect(Collectors.toList());
+    }
 
 
 

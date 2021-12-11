@@ -12,7 +12,7 @@ import java.util.Date;
 @AllArgsConstructor
 @Data
 @Entity
-public class ParameterValue {
+public abstract class ParameterValue {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
