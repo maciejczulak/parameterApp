@@ -22,12 +22,12 @@ public class NumericalParameterValueService {
     }
 
     public NumericalParameterValue addNumericalParameterValue(NumericalParameterValue toAdd) {
-        Optional<NumericalParameterValue> opt1 = repository.findByDateFrom(toAdd.getDateFrom());
-        Optional<NumericalParameterValue> opt2 = repository.findByDateTo(toAdd.getDateTo());
-        if(opt1.isPresent() && opt2.isPresent()){
-            throw new IllegalArgumentException("NumericalParameterValue in that period of time already exists");
+        Optional<NumericalParameterValue> optionalNumericalParameterValue = repository.findByParameterIdAndDateFromAndDateTo(toAdd.getParameterId(), toAdd.getDateFrom(), toAdd.getDateTo());
+        if(optionalNumericalParameterValue.isPresent()){
+            log.info("NumericalParameterValue in that period of time already exists");
+            return null;
         }
-        log.info("Successfully saved numerical parameter value {} to database", toAdd.getId());
+        log.info("Successfully saved numerical parameter value with parameterId={} to database", toAdd.getParameterId());
         return repository.save(toAdd);
     }
 

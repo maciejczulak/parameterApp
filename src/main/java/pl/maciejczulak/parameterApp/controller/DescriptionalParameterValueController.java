@@ -25,33 +25,33 @@ public class DescriptionalParameterValueController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     public DescriptionalParameterValue addDescriptionalParameterValue (@RequestBody DescriptionalParameterValue toAdd) {
-        log.info("Attempt to save parameter {} to database", toAdd.getId());
+        log.info("Attempt to save descriptional parameter value with parameterId={} to database", toAdd.getParameterId());
         return service.addDescriptionalParameterValue(toAdd);
     }
 
     @ResponseStatus(HttpStatus.ACCEPTED)
     @PutMapping("/{id}")
     public DescriptionalParameterValue updateDescriptionalParameterValue(@PathVariable Long id, @RequestBody DescriptionalParameterValue toUpdate){
-        log.info("Attempt to update parameter value with id={}", id);
+        log.info("Attempt to update descriptional parameter value with id={}", id);
         return service.updateDescriptionalParameterValue(id, toUpdate);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
     public void deleteDescriptionalParameterValue(@PathVariable Long id){
-        log.info("Attempt to delete parameter value with id={}", id);
+        log.info("Attempt to delete descriptional parameter value with id={}", id);
         service.deleteDescriptionalParameterValue(id);
     }
 
     @GetMapping
     public List<DescriptionalParameterValue> getDescriptionalParameterValueList(){
-        log.info("Attempt to get list of all parameters value");
+        log.info("Attempt to get list of all descriptional parameter values");
         return service.getDescriptionalParameterValueList();
     }
 
     @GetMapping("/filter/{parameterId}")
     public List<DescriptionalParameterValue> getDescriptionalParameterValueListByParameter(@PathVariable Long parameterId){
-        log.info("Attempt to get list of all parameters value with paremeterId={}", parameterId);
+        log.info("Attempt to get list of all descriptional parameter values with paremeterId={}", parameterId);
         return service.getDescriptionalParameterValueListByParameter(parameterId);
     }
 
