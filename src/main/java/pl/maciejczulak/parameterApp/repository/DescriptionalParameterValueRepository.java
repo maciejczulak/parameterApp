@@ -10,5 +10,5 @@ import java.util.Optional;
 
 public interface DescriptionalParameterValueRepository extends JpaRepository<DescriptionalParameterValue, Long> {
     Optional<DescriptionalParameterValue> findByParameterIdAndDateFromAndDateTo(Long parameterId, LocalDate dateFrom, LocalDate dateTo);
-    Optional<DescriptionalParameterValue> findByParameterAndDateFromAndDateTo(Parameter parameter, LocalDate dateFrom, LocalDate dateTo);
+
 }

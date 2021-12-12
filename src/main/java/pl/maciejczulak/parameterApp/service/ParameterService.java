@@ -45,7 +45,7 @@ public class ParameterService {
     }
 
     public List<Parameter> getParameterList() {
-        log.info("Getting list of all paremeters");
+        log.info("Getting list of all parameters");
         return repository.findAll();
     }
 
