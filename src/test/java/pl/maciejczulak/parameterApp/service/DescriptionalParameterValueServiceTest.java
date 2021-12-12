@@ -23,13 +23,15 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)
 class DescriptionalParameterValueServiceTest {
-    final static DescriptionalParameterValue VALUE1 = new DescriptionalParameterValue(1L, LocalDate.of(2019,9,10), LocalDate.of(2019,11,10), 1L, "First measurement");
-    final static DescriptionalParameterValue VALUE2 = new DescriptionalParameterValue(2L, LocalDate.of(2020,9,10), LocalDate.of(2020,11,10), 1L, "Second measurement");
-    final static DescriptionalParameterValue VALUE3 = new DescriptionalParameterValue(3L, LocalDate.of(2021,9,10), LocalDate.of(2021,11,10), 2L, "Third measurement");
+    DescriptionalParameterValue VALUE1 = new DescriptionalParameterValue(1L, LocalDate.of(2019,9,10), LocalDate.of(2019,11,10), 1L, "First measurement");
+    DescriptionalParameterValue VALUE2 = new DescriptionalParameterValue(2L, LocalDate.of(2020,9,10), LocalDate.of(2020,11,10), 1L, "Second measurement");
+    DescriptionalParameterValue VALUE3 = new DescriptionalParameterValue(3L, LocalDate.of(2021,9,10), LocalDate.of(2021,11,10), 2L, "Third measurement");
     List<DescriptionalParameterValue> ALL_VALUES = List.of(VALUE1, VALUE2, VALUE3);
     LocalDate min = LocalDate.of(2019, 8, 10);
     LocalDate max1 = LocalDate.of(2020, 10, 10);
     LocalDate max2 = LocalDate.of(2021, 12, 10);
+    DescriptionalParameterValue VALUE1TOUPDATE = new DescriptionalParameterValue(null, LocalDate.of(2019,9,10), LocalDate.of(2019,11,10), 1L, "First update measurement");
+
 
     @Mock
     private DescriptionalParameterValueRepository repository;
@@ -38,7 +40,37 @@ class DescriptionalParameterValueServiceTest {
     private DescriptionalParameterValueService service;
 
     @Test
-    void shouldDeleteValueFromDatabase(){
+    void shouldAddCorrectly(){
+        when(repository.findByParameterIdAndDateFromAndDateTo(VALUE1.getParameterId(), VALUE1.getDateFrom(), VALUE1.getDateTo())).thenReturn(Optional.empty());
+        DescriptionalParameterValue checked = service.addDescriptionalParameterValue(VALUE1);
+        verify(repository).save(VALUE1);
+    }
+
+    @Test
+    void shouldAddReturnNullIfValueExists(){
+        when(repository.findByParameterIdAndDateFromAndDateTo(VALUE1.getParameterId(), VALUE1.getDateFrom(), VALUE1.getDateTo())).thenReturn(Optional.of(VALUE1));
+        DescriptionalParameterValue checked = service.addDescriptionalParameterValue(VALUE1);
+        assertThat(checked).isNull();
+    }
+
+    @Test
+    void shouldUpdateCorrectly(){
+        when(repository.findById(VALUE1.getId())).thenReturn(Optional.of(VALUE1));
+        DescriptionalParameterValue checked = service.updateDescriptionalParameterValue(VALUE1.getId(), VALUE1TOUPDATE);
+        verify(repository).save(VALUE1TOUPDATE);
+        assertThat(checked.getDescription()).isEqualTo("First update measurement");
+    }
+
+    @Test
+    void shouldUpdateReturnNullIfValueDontExists(){
+        Long notExistsId = 4L;
+        when(repository.findById(notExistsId)).thenReturn(Optional.empty());
+        DescriptionalParameterValue checked = service.updateDescriptionalParameterValue(notExistsId, VALUE1TOUPDATE);
+        assertThat(checked).isNull();
+    }
+
+    @Test
+    void shouldDeleteCorrectly(){
         when(repository.findById(VALUE1.getId())).thenReturn(Optional.of(VALUE1));
         service.deleteDescriptionalParameterValue(VALUE1.getId());
         verify(repository).delete(VALUE1);

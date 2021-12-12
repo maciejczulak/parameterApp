@@ -18,7 +18,8 @@ public abstract class ParameterValue {
     private Long id;
     private LocalDate dateFrom;
     private LocalDate dateTo;
-    @JoinColumn(name = "parameter_id")
+    @ManyToOne(targetEntity = Parameter.class)
+    @JoinColumn(referencedColumnName = "parameter_id")
     private Long parameterId;
 
 

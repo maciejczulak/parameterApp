@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import javax.persistence.*;
+import java.util.List;
 
 
 @NoArgsConstructor
@@ -20,6 +21,9 @@ public class Parameter {
     @NotNull
     private String name;
     private String description;
+    @OneToMany(targetEntity = ParameterValue.class)
+    @JoinColumn(referencedColumnName = "id")
+    private List<Long> parameterValueId;
 
 
 }
