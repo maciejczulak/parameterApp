@@ -16,8 +16,8 @@ public class DescriptionalParameterValue extends ParameterValue{
     @Column(length = 30)
     private String description;
 
-    public DescriptionalParameterValue(Long id, LocalDate dateFrom, LocalDate dateTo, Long parameterId, String description) {
-        super(id, dateFrom, dateTo, parameterId);
+    public DescriptionalParameterValue(Long id, LocalDate dateFrom, LocalDate dateTo, Parameter parameter, String description) {
+        super(id, dateFrom, dateTo, parameter);
         this.description = description;
     }
 }

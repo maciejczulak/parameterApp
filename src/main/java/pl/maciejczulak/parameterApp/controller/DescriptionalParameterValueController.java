@@ -25,7 +25,7 @@ public class DescriptionalParameterValueController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     public DescriptionalParameterValue addDescriptionalParameterValue (@RequestBody DescriptionalParameterValue toAdd) {
-        log.info("Attempt to save descriptional parameter value with parameterId={} to database", toAdd.getParameterId());
+        log.info("Attempt to save descriptional parameter value with parameterId={} to database", toAdd.getParameter().getId());
         return service.addDescriptionalParameterValue(toAdd);
     }
 

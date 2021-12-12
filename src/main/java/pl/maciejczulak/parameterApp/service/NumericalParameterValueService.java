@@ -22,12 +22,12 @@ public class NumericalParameterValueService {
     }
 
     public NumericalParameterValue addNumericalParameterValue(NumericalParameterValue toAdd) {
-        Optional<NumericalParameterValue> optionalNumericalParameterValue = repository.findByParameterIdAndDateFromAndDateTo(toAdd.getParameterId(), toAdd.getDateFrom(), toAdd.getDateTo());
+        Optional<NumericalParameterValue> optionalNumericalParameterValue = repository.findByParameterIdAndDateFromAndDateTo(toAdd.getParameter().getId(), toAdd.getDateFrom(), toAdd.getDateTo());
         if(optionalNumericalParameterValue.isPresent()){
             log.info("NumericalParameterValue in that period of time already exists");
             return null;
         }
-        log.info("Successfully saved numerical parameter value with parameterId={} to database", toAdd.getParameterId());
+        log.info("Successfully saved numerical parameter value with parameterId={} to database", toAdd.getParameter().getId());
         return repository.save(toAdd);
     }
 
@@ -60,8 +60,8 @@ public class NumericalParameterValueService {
     public List<NumericalParameterValue> getNumericalParameterValueListByParameter(Long paremeterId) {
         log.info("Getting list of numerical parameter values with paremeterId={}", paremeterId);
         return repository.findAll().stream()
-                .filter(a -> a.getParameterId().equals(paremeterId)).
-                collect(Collectors.toList());
+                .filter(a -> a.getParameter().getId().equals(paremeterId))
+                .collect(Collectors.toList());
     }
 
     public List<NumericalParameterValue> getNumericalParameterValueListInPeriodOfTime(LocalDate min, LocalDate max) {

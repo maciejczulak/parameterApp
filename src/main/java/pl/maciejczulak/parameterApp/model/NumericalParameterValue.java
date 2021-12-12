@@ -17,8 +17,8 @@ public class NumericalParameterValue extends ParameterValue {
     private BigDecimal value;
     private Unit unit;
 
-    public NumericalParameterValue(Long id, LocalDate dateFrom, LocalDate dateTo, Long parameterId, BigDecimal value, Unit unit) {
-        super(id, dateFrom, dateTo, parameterId);
+    public NumericalParameterValue(Long id, LocalDate dateFrom, LocalDate dateTo, Parameter parameter, BigDecimal value, Unit unit) {
+        super(id, dateFrom, dateTo, parameter);
         this.value = value;
         this.unit = unit;
     }

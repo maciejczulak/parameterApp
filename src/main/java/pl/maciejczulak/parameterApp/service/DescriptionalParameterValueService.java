@@ -21,12 +21,12 @@ public class DescriptionalParameterValueService {
     }
 
     public DescriptionalParameterValue addDescriptionalParameterValue(DescriptionalParameterValue toAdd) {
-        Optional<DescriptionalParameterValue> optionalDescriptionalParameterValue = repository.findByParameterIdAndDateFromAndDateTo(toAdd.getParameterId(), toAdd.getDateFrom(), toAdd.getDateTo());
+        Optional<DescriptionalParameterValue> optionalDescriptionalParameterValue = repository.findByParameterIdAndDateFromAndDateTo(toAdd.getParameter().getId(), toAdd.getDateFrom(), toAdd.getDateTo());
         if(optionalDescriptionalParameterValue.isPresent()){
             log.info("DescriptionalParameterValue in that period of time already exists");
             return null;
         }
-        log.info("Successfully saved descriptional parameter value with parameterId={} to database", toAdd.getParameterId());
+        log.info("Successfully saved descriptional parameter value with parameterId={} to database", toAdd.getParameter().getId());
         return repository.save(toAdd);
     }
 
@@ -59,7 +59,8 @@ public class DescriptionalParameterValueService {
     public List<DescriptionalParameterValue> getDescriptionalParameterValueListByParameter(Long paremeterId) {
         log.info("Getting list of descriptional parameter values with paremeterId={}", paremeterId);
         return repository.findAll().stream()
-                .filter(a -> a.getParameterId().equals(paremeterId)).collect(Collectors.toList());
+                .filter(a -> a.getParameter().getId().equals(paremeterId))
+                .collect(Collectors.toList());
     }
 
     public List<DescriptionalParameterValue> getDescriptionalParameterValueListInPeriodOfTime(LocalDate min, LocalDate max) {

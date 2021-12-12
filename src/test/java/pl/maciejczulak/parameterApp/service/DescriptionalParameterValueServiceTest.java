@@ -9,6 +9,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
 import pl.maciejczulak.parameterApp.model.DescriptionalParameterValue;
+import pl.maciejczulak.parameterApp.model.Parameter;
 import pl.maciejczulak.parameterApp.repository.DescriptionalParameterValueRepository;
 
 import java.time.LocalDate;
@@ -23,14 +24,14 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)
 class DescriptionalParameterValueServiceTest {
-    DescriptionalParameterValue VALUE1 = new DescriptionalParameterValue(1L, LocalDate.of(2019,9,10), LocalDate.of(2019,11,10), 1L, "First measurement");
-    DescriptionalParameterValue VALUE2 = new DescriptionalParameterValue(2L, LocalDate.of(2020,9,10), LocalDate.of(2020,11,10), 1L, "Second measurement");
-    DescriptionalParameterValue VALUE3 = new DescriptionalParameterValue(3L, LocalDate.of(2021,9,10), LocalDate.of(2021,11,10), 2L, "Third measurement");
+    DescriptionalParameterValue VALUE1 = new DescriptionalParameterValue(1L, LocalDate.of(2019,9,10), LocalDate.of(2019,11,10), new Parameter(1L, "Param1", null), "First measurement");
+    DescriptionalParameterValue VALUE2 = new DescriptionalParameterValue(2L, LocalDate.of(2020,9,10), LocalDate.of(2020,11,10), new Parameter(1L, "Param2", null), "Second measurement");
+    DescriptionalParameterValue VALUE3 = new DescriptionalParameterValue(3L, LocalDate.of(2021,9,10), LocalDate.of(2021,11,10), new Parameter(2L, "Param2",  null), "Third measurement");
     List<DescriptionalParameterValue> ALL_VALUES = List.of(VALUE1, VALUE2, VALUE3);
     LocalDate min = LocalDate.of(2019, 8, 10);
     LocalDate max1 = LocalDate.of(2020, 10, 10);
     LocalDate max2 = LocalDate.of(2021, 12, 10);
-    DescriptionalParameterValue VALUE1TOUPDATE = new DescriptionalParameterValue(null, LocalDate.of(2019,9,10), LocalDate.of(2019,11,10), 1L, "First update measurement");
+    DescriptionalParameterValue VALUE1TOUPDATE = new DescriptionalParameterValue(null, LocalDate.of(2019,9,10), LocalDate.of(2019,11,10), new Parameter(1L, "Param2", null), "First update measurement");
 
 
     @Mock
@@ -41,14 +42,14 @@ class DescriptionalParameterValueServiceTest {
 
     @Test
     void shouldAddCorrectly(){
-        when(repository.findByParameterIdAndDateFromAndDateTo(VALUE1.getParameterId(), VALUE1.getDateFrom(), VALUE1.getDateTo())).thenReturn(Optional.empty());
+        when(repository.findByParameterIdAndDateFromAndDateTo(VALUE1.getParameter().getId(), VALUE1.getDateFrom(), VALUE1.getDateTo())).thenReturn(Optional.empty());
         DescriptionalParameterValue checked = service.addDescriptionalParameterValue(VALUE1);
         verify(repository).save(VALUE1);
     }
 
     @Test
     void shouldAddReturnNullIfValueExists(){
-        when(repository.findByParameterIdAndDateFromAndDateTo(VALUE1.getParameterId(), VALUE1.getDateFrom(), VALUE1.getDateTo())).thenReturn(Optional.of(VALUE1));
+        when(repository.findByParameterIdAndDateFromAndDateTo(VALUE1.getParameter().getId(), VALUE1.getDateFrom(), VALUE1.getDateTo())).thenReturn(Optional.of(VALUE1));
         DescriptionalParameterValue checked = service.addDescriptionalParameterValue(VALUE1);
         assertThat(checked).isNull();
     }

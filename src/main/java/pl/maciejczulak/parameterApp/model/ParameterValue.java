@@ -20,7 +20,7 @@ public abstract class ParameterValue {
     private LocalDate dateTo;
     @ManyToOne(targetEntity = Parameter.class)
     @JoinColumn(referencedColumnName = "parameter_id")
-    private Long parameterId;
+    private Parameter parameter;
 
 
 

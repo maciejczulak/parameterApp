@@ -21,11 +21,14 @@ public class Parameter {
     @NotNull
     private String name;
     private String description;
-    @OneToMany(targetEntity = ParameterValue.class)
-    @JoinColumn(referencedColumnName = "id")
-    private List<Long> parameterValueId;
+    @OneToMany(targetEntity = ParameterValue.class, mappedBy = "parameter")
+    private List<ParameterValue> parameterValue;
 
-
+    public Parameter(Long id, String name, String description) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+    }
 }
 
 

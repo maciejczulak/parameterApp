@@ -25,7 +25,7 @@ public class NumericalParameterValueController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     public NumericalParameterValue addNumericalParameterValue (@RequestBody NumericalParameterValue toAdd) {
-        log.info("Attempt to save numerical parameter value with parameterId={} to database", toAdd.getParameterId());
+        log.info("Attempt to save numerical parameter value with parameterId={} to database", toAdd.getParameter().getId());
         return service.addNumericalParameterValue(toAdd);
     }
 
